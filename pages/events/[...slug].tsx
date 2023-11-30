@@ -1,14 +1,14 @@
 import type { NextPage } from 'next';
-import {useRouter} from 'next/router';
-import {getFilteredEvents} from '../../data';
-import EventList from '../../components/event-list/EventList';
+import { useRouter } from 'next/router';
+import { getFilteredEvents } from '../../data';
+import EventList from '../../components/events/event-list';
 
-const FilteredEventPage : NextPage = () => {
+const FilteredEventPage: NextPage = () => {
   const router = useRouter();
 
-  const filterData= router.query.slug;
+  const filterData = router.query.slug;
 
-  if(!filterData) {
+  if (!filterData) {
     return <p>Loading...</p>
   }
 
@@ -18,19 +18,19 @@ const FilteredEventPage : NextPage = () => {
   const numYear = +filteredYear;
   const numMonth = +filteredMonth;
 
-  if(isNaN(numYear) || isNaN(numMonth) || numYear > 2030 || numYear < 2021 || numMonth < 1 || numMonth > 12) {
+  if (isNaN(numYear) || isNaN(numMonth) || numYear > 2030 || numYear < 2021 || numMonth < 1 || numMonth > 12) {
     return <p>Invalid filter. Please adjust your filter.</p>
   }
 
   const filteredEvents = getFilteredEvents({
     year: numYear,
-    month : numMonth
+    month: numMonth
   });
 
-  if(!filteredEvents || filteredEvents.length === 0) {
+  if (!filteredEvents || filteredEvents.length === 0) {
     return <p>No events found....</p>
   }
-  
+
   return (
     <div>
       <EventList items={filteredEvents} />
